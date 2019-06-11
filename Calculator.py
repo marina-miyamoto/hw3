@@ -124,6 +124,7 @@ def runTest():
     test("1-9.8*2")
     test("6-8/2")
     test("7*3")
+    test("6*3.3*4")
     test("5*5+3")
     test("1*9.8-2")
     test("6*8/2")
@@ -132,7 +133,9 @@ def runTest():
     test("1/9.8-2")
     test("1/8*2")
     test("1/8/2")
-    test("1+2-3*4")
+    test("44+2.5-3*4")
+    test("1+2-3/4")
+    test("6+7-8*9/10")
     print("==== Test finished! ====\n")
 
 runTest()
