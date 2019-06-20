@@ -53,8 +53,7 @@ def tokenize(line): #Change the numbers/signs to tokens
     return tokens
 
 def evaluate_multiplication_division(tokens):
-    tokens.insert(0, {'type': 'PLUS'}) # Insert a dummy '+' token
-    index = 1
+    index = 2
     while index < len(tokens):
         if tokens[index]['type'] == 'NUMBER':
             if tokens[index - 1]['type'] == 'MULTIPLY':
@@ -76,10 +75,7 @@ def evaluate_multiplication_division(tokens):
                 tokens.insert(index - 2, token)
                 index = tokens.index(token)
                 
-            elif tokens[index - 1]['type'] == 'PLUS' or tokens[index - 1]['type'] == 'MINUS':
-                tokens
-
-            else:
+            elif tokens[index - 1]['type'] != 'PLUS' and tokens[index - 1]['type'] != 'MINUS':
                 print('Invalid syntax')
                 exit(1)
         index += 1
@@ -88,6 +84,7 @@ def evaluate_multiplication_division(tokens):
 def evaluate_addition_subtraction(tokens):
     answer = 0
     index = 1
+    tokens.insert(0, {'type': 'PLUS'}) # Insert a dummy '+' token
     while index < len(tokens):
         if tokens[index]['type'] == 'NUMBER':
             if tokens[index - 1]['type'] == 'PLUS':
@@ -100,11 +97,13 @@ def evaluate_addition_subtraction(tokens):
         index += 1
     return answer
 
-
-def test(line):
+def evaluate_answer(line):
     tokens = tokenize(line)
     tokens = evaluate_multiplication_division(tokens)
-    actualAnswer = evaluate_addition_subtraction(tokens)
+    return evaluate_addition_subtraction(tokens)
+
+def test(line):
+    actualAnswer = evaluate_answer(line)
     expectedAnswer = eval(line)
     if abs(actualAnswer - expectedAnswer) < 1e-8:
         print("PASS! (%s = %f)" % (line, expectedAnswer))
@@ -143,7 +142,5 @@ runTest()
 while True:
     print('> ', end="")
     line = input()
-    tokens = tokenize(line)
-    tokens = evaluate_multiplication_division(tokens)
-    answer = evaluate_addition_subtraction(tokens)
+    answer = evaluate_answer(line)
     print("answer = %f\n" % answer)   
